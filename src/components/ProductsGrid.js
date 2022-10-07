@@ -26,10 +26,24 @@ export default class ProductsGrid extends React.Component {
         const { curCategoryName } = this.props.appState;
         
         if (curCategoryName !== null) {
-            services.getProductsWithHavingCurCategoryName({curCategoryName})
-                    .then(res => this.setState({products: res}))
-                    .catch(err => console.log(err.message));            
+            this.getProducts();            
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { curCategoryName } = this.props.appState;
+
+        if (curCategoryName !== null && prevProps.appState.curCategoryName !== curCategoryName) {
+            this.getProducts();
+        }
+    }
+
+    getProducts() {
+        const { curCategoryName } = this.props.appState;
+
+        services.getProductsWithHavingCurCategoryName(curCategoryName)
+                .then(res => this.setState({products: res}))
+                .catch(err => console.log(err.message));
     }
     
     render() {

@@ -26,8 +26,6 @@ export default class App extends React.Component {
     if (this.state.categoryNames === null || this.state.currencies === null)
       return <div>Loading...</div>;
 
-    console.log(this.state.curCategoryName, this.state.curCurrencySymbol);
-
     return (
       <div>
         <Header appState = {this.state} setAppState = {obj => this.setState(obj)} />

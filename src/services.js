@@ -38,8 +38,8 @@ async function getCategoryNamesAndCurrencies() {
 async function getProductsWithHavingCurCategoryName(curCategoryName) {
     try {
         const input = {title: curCategoryName};
-        const response = await axios.post(BASE_URL, {query: GET_CUR_CATEGORY_NAME_PRODUCTS, variables: input});
-        return response.data.data.category.products;
+        const response = await axios.post(BASE_URL, {query: GET_CUR_CATEGORY_NAME_PRODUCTS, variables: {input}});
+        return response.data.data.category.products; 
     }
     catch(err) {
         throw err;
