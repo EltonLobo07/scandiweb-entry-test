@@ -50,19 +50,25 @@ export default class ProductsGrid extends React.Component {
         if (this.state.products === null)
             return <div>Loading...</div>;
 
-        const { curCurrencySymbol } = this.props.appState;
+        const { curCategoryName, curCurrencySymbol } = this.props.appState;
 
         return (
-            <section style = {{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", rowGap: "8px", columnGap: "8px"}}>
-                {
-                    this.state.products.map(product => {
-                        return (
-                            <DisplayMinimalProductInfo key = {product.id}
-                                                       product = {product} 
-                                                       curCurrencySymbol = {curCurrencySymbol} />
-                        );
-                    })
-                }
+            <section>
+                <h1 style = {{fontSize: "48px", fontWeight: "bold"}}>
+                    {curCategoryName}
+                </h1>
+
+                <div style = {{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", rowGap: "8px", columnGap: "8px"}}>
+                    {
+                        this.state.products.map(product => {
+                            return (
+                                <DisplayMinimalProductInfo key = {product.id}
+                                                        product = {product} 
+                                                        curCurrencySymbol = {curCurrencySymbol} />
+                            );
+                        })
+                    }
+                </div>
             </section>
         );
     }
