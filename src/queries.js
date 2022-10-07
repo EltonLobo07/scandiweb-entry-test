@@ -1,11 +1,7 @@
-export const GET_CURRENCIES_AND_CATEGORIES = `
+export const GET_CATEGORY_NAMES = `
     query {
         categories {
             name
-        },
-        currencies {
-            label,
-            symbol
         }
     }
 `;

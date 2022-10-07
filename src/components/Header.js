@@ -1,18 +1,38 @@
 import React from "react";
-import CategoryFilter from "./CategoryFilter";
-import SwicthCurrencyOrViewCart from "./SwitchCurrencyOrViewCart";
 
-export default class Header extends React.Component{
+/*
+    Header needs the following as props:
+        -Category names                   X
+        -Currencies
+        -Total number of products
+        -List of products in the cart 
+*/
+
+export default class Header extends React.Component {
     render() {
+        const categoryNames = this.props.appState.categoryNames;
+        const curCategoryName = this.props.appState.curCategoryName;
+
         return (
-            <nav style = {{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 128px", height: "80px"}}>
-                <CategoryFilter appState = {this.props.appState} setAppState = {this.props.setAppState} />
+            <header style = {{border: "1px solid black"}}>
+                <nav style = {{display: "flex", columnGap: "12px"}}>
+                    {
+                        categoryNames.map(categoryName => {
+                            return (
+                                <button key = {categoryName}
+                                        onClick = {() => this.handleCategoryNameClick(categoryName)}
+                                        style = {{border: `1px solid ${categoryName === curCategoryName ? "black" : "white"}`}}>
+                                    {categoryName}
+                                </button>
+                            );
+                        })
+                    }
+                </nav>
+            </header>
+        )
+    }
 
-                <div style = {{height: "32px", width: "24px", background: "linear-gradient(316.98deg, #52D67A 16.88%, #5AEE87 84.04%)"}}>
-                </div>
-
-                <SwicthCurrencyOrViewCart appState = {this.props.appState} setAppState = {this.props.setAppState} />
-            </nav>
-        );
+    handleCategoryNameClick(categoryName) {
+        this.props.setAppState({curCategoryName: categoryName});
     }
 }
