@@ -26,3 +26,21 @@ export const GET_CATEGORY_NAMES_AND_CURRENCIES = `
         }
     }
 `
+export const GET_CUR_CATEGORY_NAME_PRODUCTS = `
+    query($input: CategoryInput) {
+        category(input: $input) {
+            products {
+                gallery,
+                name,
+                id,
+                inStock,
+                prices {
+                    currency {
+                        symbol
+                    },
+                    amount
+                }
+            }
+        }
+    }
+`;

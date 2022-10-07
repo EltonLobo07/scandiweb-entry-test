@@ -2,14 +2,14 @@ import React from "react";
 
 export default class CurrencySwicther extends React.Component {
     render() {
-        const { currencies, curCurrencyLabel } = this.props.appState;
+        const { currencies, curCurrencySymbol } = this.props.appState;
 
         return (
-            <select value = {curCurrencyLabel} onChange = {e => this.handleCurrencySwitch(e)}>
+            <select value = {curCurrencySymbol} onChange = {e => this.handleCurrencySwitch(e)}>
                 {
                     currencies.map(currencyObj => {
                         return (
-                            <option key = {currencyObj.label} value = {currencyObj.label}>
+                            <option key = {currencyObj.symbol} value = {currencyObj.symbol}>
                                 {`${currencyObj.symbol} ${currencyObj.label}`}
                             </option>
                         );
@@ -20,6 +20,6 @@ export default class CurrencySwicther extends React.Component {
     }
 
     handleCurrencySwitch(e) {
-        this.props.setAppState({curCurrencyLabel: e.target.value});
+        this.props.setAppState({curCurrencySymbol: e.target.value});
     }
 }

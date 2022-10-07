@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
+import ProductsGrid from "./components/ProductsGrid";
 import services from "./services"; 
 
 export default class App extends React.Component {
@@ -9,28 +10,14 @@ export default class App extends React.Component {
       categoryNames: null,
       curCategoryName: null,
       currencies: null,
-      curCurrencyLabel: null
+      curCurrencySymbol: null
     }
   }
 
   componentDidMount() {
-    /*
-    services.getCategoryNames()
-            .then(categoryNames => {
-              this.setState({categoryNames, curCategoryName: categoryNames[0]});
-             })
-            .catch(err => console.log(err.message));
-
-    services.getCurrencies()
-            .then(currencies => {
-              this.setState({currencies, curCurrencyLabel: currencies[0].label});
-            })
-            .catch(err => console.log(err.message));
-    */
-    
     services.getCategoryNamesAndCurrencies()
             .then(res => {
-              this.setState({...res, curCategoryName: res.categoryNames[0], curCurrencyLabel: res.currencies[0].label});
+              this.setState({...res, curCategoryName: res.categoryNames[0], curCurrencySymbol: res.currencies[0].symbol});
             })
             .catch(err => console.log(err.message));
   }
@@ -39,11 +26,13 @@ export default class App extends React.Component {
     if (this.state.categoryNames === null || this.state.currencies === null)
       return <div>Loading...</div>;
 
-    console.log(this.state.curCategoryName, this.state.curCurrencyLabel);
+    console.log(this.state.curCategoryName, this.state.curCurrencySymbol);
 
     return (
       <div>
         <Header appState = {this.state} setAppState = {obj => this.setState(obj)} />
+
+        <ProductsGrid appState = {this.state} />
       </div>
     );
   }

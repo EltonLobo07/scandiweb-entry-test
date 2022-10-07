@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_CATEGORY_NAMES, GET_CATEGORY_NAMES_AND_CURRENCIES, GET_CURRENCIES } from "./queries";
+import { GET_CATEGORY_NAMES, GET_CATEGORY_NAMES_AND_CURRENCIES, GET_CUR_CATEGORY_NAME_PRODUCTS, GET_CURRENCIES } from "./queries";
 
 const BASE_URL = "http://localhost:4000";
 
@@ -35,6 +35,17 @@ async function getCategoryNamesAndCurrencies() {
     }
 }
 
-const obj = {getCategoryNames, getCurrencies, getCategoryNamesAndCurrencies};
+async function getProductsWithHavingCurCategoryName(curCategoryName) {
+    try {
+        const input = {title: curCategoryName};
+        const response = await axios.post(BASE_URL, {query: GET_CUR_CATEGORY_NAME_PRODUCTS, variables: input});
+        return response.data.data.category.products;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+const obj = {getCategoryNames, getCurrencies, getCategoryNamesAndCurrencies, getProductsWithHavingCurCategoryName};
 
 export default obj;
