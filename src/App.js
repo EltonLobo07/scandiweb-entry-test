@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "./components/Header";
-import ProductsGrid from "./components/ProductsGrid";
 import services from "./services"; 
+import { Navigate, Outlet } from "react-router-dom";
+import AppState from "./AppState";
 
 export default class App extends React.Component {
   constructor() {
@@ -10,8 +11,10 @@ export default class App extends React.Component {
       categoryNames: null,
       curCategoryName: null,
       currencies: null,
-      curCurrencySymbol: null
-    }
+      curCurrencySymbol: null,
+      categoryChangedUsingHeader: false
+    };
+    this.setAppState = this.setAppState.bind(this); 
   }
 
   componentDidMount() {
@@ -26,12 +29,23 @@ export default class App extends React.Component {
     if (this.state.categoryNames === null || this.state.currencies === null)
       return <div>Loading...</div>;
 
+    if (this.state.categoryChangedUsingHeader) {
+      this.setState({categoryChangedUsingHeader: false});
+      return <Navigate to = "/" />;
+    }
+
     return (
       <div>
-        <Header appState = {this.state} setAppState = {obj => this.setState(obj)} />
+        <Header appState = {this.state} setAppState = {this.setAppState} />
 
-        <ProductsGrid appState = {this.state} />
+        <AppState.Provider value = {{appState: this.state, setAppState: this.setAppState}}>
+          <Outlet />
+        </AppState.Provider>
       </div>
     );
+  }
+
+  setAppState(obj) {
+    this.setState(obj);
   }
 }

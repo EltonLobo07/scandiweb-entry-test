@@ -1,18 +1,7 @@
 import React from "react";
+import AppState from "../AppState";
 import services from "../services";
-import DisplayMinimalProductInfo from "./DisplayMinimalProductInfo";
-
-/*
-    ProductsGrid needs the following as props:
-        -Current category name                                   X               
-        -Array of product objects of the current category
-            Each product object should have the following keys
-                -Image                                           X
-                -Name                                            X 
-                -Id                                              X
-                -Price                                           X
-                -isOutOfStock                                    X
-*/
+import DisplayMinProductInfo from "./DisplayMinProductInfo";
 
 export default class ProductsGrid extends React.Component {
     constructor(props) {
@@ -20,26 +9,31 @@ export default class ProductsGrid extends React.Component {
         this.state = {
             products: null
         };
+        this.prevCurCategoryName = null;
     }
 
     componentDidMount() {
-        const { curCategoryName } = this.props.appState;
+        const { curCategoryName } = this.context.appState;
         
         if (curCategoryName !== null) {
             this.getProducts();            
         }
+
+        this.prevCurCategoryName = curCategoryName;
     }
 
-    componentDidUpdate(prevProps) {
-        const { curCategoryName } = this.props.appState;
+    componentDidUpdate() {
+        const { curCategoryName } = this.context.appState;
 
-        if (curCategoryName !== null && prevProps.appState.curCategoryName !== curCategoryName) {
+        if (curCategoryName !== null && this.prevCurCategoryName !== curCategoryName) {
             this.getProducts();
         }
+
+        this.prevCurCategoryName = curCategoryName;
     }
 
     getProducts() {
-        const { curCategoryName } = this.props.appState;
+        const { curCategoryName } = this.context.appState;
 
         services.getProductsWithHavingCurCategoryName(curCategoryName)
                 .then(res => this.setState({products: res}))
@@ -48,9 +42,9 @@ export default class ProductsGrid extends React.Component {
     
     render() {
         if (this.state.products === null)
-            return <div>Loading...</div>;
+            return <div>Loading...</div>; 
 
-        const { curCategoryName, curCurrencySymbol } = this.props.appState;
+        const { curCategoryName, curCurrencySymbol } = this.context.appState;
 
         return (
             <section>
@@ -62,9 +56,9 @@ export default class ProductsGrid extends React.Component {
                     {
                         this.state.products.map(product => {
                             return (
-                                <DisplayMinimalProductInfo key = {product.id}
-                                                        product = {product} 
-                                                        curCurrencySymbol = {curCurrencySymbol} />
+                                <DisplayMinProductInfo key = {product.id}
+                                                       product = {product} 
+                                                       curCurrencySymbol = {curCurrencySymbol} />
                             );
                         })
                     }
@@ -73,3 +67,5 @@ export default class ProductsGrid extends React.Component {
         );
     }
 }
+
+ProductsGrid.contextType = AppState;

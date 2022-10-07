@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_CATEGORY_NAMES, GET_CATEGORY_NAMES_AND_CURRENCIES, GET_CUR_CATEGORY_NAME_PRODUCTS, GET_CURRENCIES } from "./queries";
+import { GET_CATEGORY_NAMES, GET_CATEGORY_NAMES_AND_CURRENCIES, GET_CUR_CATEGORY_NAME_PRODUCTS, GET_CURRENCIES, GET_SINGLE_PRODUCT } from "./queries";
 
 const BASE_URL = "http://localhost:4000";
 
@@ -46,6 +46,17 @@ async function getProductsWithHavingCurCategoryName(curCategoryName) {
     }
 }
 
-const obj = {getCategoryNames, getCurrencies, getCategoryNamesAndCurrencies, getProductsWithHavingCurCategoryName};
+async function getSingleProduct(productId) {
+    try {
+        const id = productId;
+        const response = await axios.post(BASE_URL, {query: GET_SINGLE_PRODUCT, variables: {id}});
+        return response.data.data.product;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+const obj = {getCategoryNames, getCurrencies, getCategoryNamesAndCurrencies, getProductsWithHavingCurCategoryName, getSingleProduct};
 
 export default obj;

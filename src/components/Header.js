@@ -1,14 +1,6 @@
 import React from "react";
 import CurrencySwicther from "./CurrencySwitcher";
 
-/*
-    Header needs the following as props:
-        -Category names                   X
-        -Currencies                       X
-        -Total number of products
-        -List of products in the cart 
-*/
-
 export default class Header extends React.Component {
     render() {
         const { categoryNames, curCategoryName } = this.props.appState;
@@ -46,6 +38,6 @@ export default class Header extends React.Component {
     }
 
     handleCategoryNameClick(categoryName) {
-        this.props.setAppState({curCategoryName: categoryName});
+        this.props.setAppState({curCategoryName: categoryName, categoryChangedUsingHeader: true});
     }
 }
