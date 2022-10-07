@@ -1,20 +1,20 @@
 import React from "react";
+import CurrencySwicther from "./CurrencySwitcher";
 
 /*
     Header needs the following as props:
         -Category names                   X
-        -Currencies
+        -Currencies                       X
         -Total number of products
         -List of products in the cart 
 */
 
 export default class Header extends React.Component {
     render() {
-        const categoryNames = this.props.appState.categoryNames;
-        const curCategoryName = this.props.appState.curCategoryName;
+        const { categoryNames, curCategoryName } = this.props.appState;
 
         return (
-            <header style = {{border: "1px solid black"}}>
+            <header style = {{border: "1px solid black", display: "flex", justifyContent: "space-around"}}>
                 <nav style = {{display: "flex", columnGap: "12px"}}>
                     {
                         categoryNames.map(categoryName => {
@@ -28,6 +28,19 @@ export default class Header extends React.Component {
                         })
                     }
                 </nav>
+
+                <div>
+                    Shop logo
+                </div>
+
+                <div style = {{display: "flex", columnGap: "12px"}}>
+                    <CurrencySwicther appState = {this.props.appState}
+                                      setAppState = {this.props.setAppState} />
+
+                    <div>
+                        Cart button
+                    </div>
+                </div>
             </header>
         )
     }

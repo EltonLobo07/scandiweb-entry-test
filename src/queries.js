@@ -5,3 +5,12 @@ export const GET_CATEGORY_NAMES = `
         }
     }
 `;
+
+export const GET_CURRENCIES = `
+    query {
+        currencies {
+            label,
+            symbol
+        }
+    }
+`;
