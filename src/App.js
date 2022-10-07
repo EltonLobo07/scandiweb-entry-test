@@ -14,6 +14,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    /*
     services.getCategoryNames()
             .then(categoryNames => {
               this.setState({categoryNames, curCategoryName: categoryNames[0]});
@@ -23,6 +24,13 @@ export default class App extends React.Component {
     services.getCurrencies()
             .then(currencies => {
               this.setState({currencies, curCurrencyLabel: currencies[0].label});
+            })
+            .catch(err => console.log(err.message));
+    */
+    
+    services.getCategoryNamesAndCurrencies()
+            .then(res => {
+              this.setState({...res, curCategoryName: res.categoryNames[0], curCurrencyLabel: res.currencies[0].label});
             })
             .catch(err => console.log(err.message));
   }

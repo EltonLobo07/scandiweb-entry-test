@@ -14,3 +14,15 @@ export const GET_CURRENCIES = `
         }
     }
 `;
+
+export const GET_CATEGORY_NAMES_AND_CURRENCIES = `
+    query {
+        categories {
+            name
+        },
+        currencies {
+            label,
+            symbol
+        }
+    }
+`
