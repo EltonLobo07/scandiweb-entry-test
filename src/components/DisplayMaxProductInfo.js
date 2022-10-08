@@ -2,6 +2,8 @@ import React from "react";
 import service from "../services";
 import UnknownPath from "./UnknownPath";
 import AppState from "../AppState";
+import DisplayAttrObj from "./DisplayAttrObj";
+import DisplaySmallImage from "./DisplaySmallImage";
 
 export default class DisplayMaxProductInfo extends React.Component {
     constructor(props) {
@@ -37,8 +39,13 @@ export default class DisplayMaxProductInfo extends React.Component {
         const { curCurrencySymbol } = this.context.appState;
 
         return (
-            <div style = {{height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", columnGap: "12px"}}>
-                <div>
+            <div style = {{display: "flex", justifyContent: "center", alignItems: "center", columnGap: "12px"}}>
+                <div style = {{display: "flex", columnGap: "12px"}}>
+                    <div style = {{display: "flex", flexDirection: "column", rowGap: "12px"}}>
+                        {
+                            product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} />)
+                        }
+                    </div>
                     <img src = {product.gallery[imgIdx]} 
                          alt = {`${product.name} number ${imgIdx}`}
                          style = {{width: "350px", height: "350px"}} />
@@ -51,6 +58,11 @@ export default class DisplayMaxProductInfo extends React.Component {
                         {product.name}
                     </h4>
                     <div>
+                        {
+                            product.attributes.map(attrObj => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} />)
+                        }
+                    </div>
+                    <div>
                         <div>
                             PRICE:
                         </div>
@@ -61,7 +73,9 @@ export default class DisplayMaxProductInfo extends React.Component {
                     <button disabled = {!product.inStock} style = {{border: "1px solid black"}}>
                         {product.inStock ? "ADD TO CART" : "OUT OF STOCK"}
                     </button>
-                    <div ref = {this.descriptionRef}></div>
+                    <div ref = {this.descriptionRef}
+                         style = {{width: "250px"}}>
+                    </div>
                 </div>
             </div>
         );
