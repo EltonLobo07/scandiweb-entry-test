@@ -22,6 +22,13 @@ export default class DisplayMaxProductInfo extends React.Component {
         
         service.getSingleProduct(productId)
                .then(res => {
+                    const inCartProd = this.context.appState.cart.find(prodObj => prodObj.id === productId);
+                    
+                    if (inCartProd !== undefined) {
+                        this.setState({product: res, attrState: inCartProd.attrState});
+                        return;
+                    }
+
                     const initialAttrState = [];
 
                     if (res !== null) {
@@ -40,7 +47,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (this.state.product && this.descriptionRef.current.innerHTML === "")
             this.descriptionRef.current.innerHTML = this.state.product.description;
 
-        if (this.isProductInCart && this.state.attrState.join(",") !== prevState.attrState.join(",")) {
+        if (this.isProductInCart && prevState.attrState !== undefined && this.state.attrState.join(",") !== prevState.attrState.join(",")) {
             this.setAppState({cart: this.appState.cart.map(prodObj => prodObj.id === this.productId ? {...prodObj, attrState: [...this.state.attrState]} : prodObj)});
         }
     }
@@ -133,7 +140,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (this.isProductInCart)
             this.setAppState({cart: this.appState.cart.filter(prodObj => prodObj.id !== this.productId)});
         else {
-            this.setAppState({cart: [...this.appState.cart, {id: this.productId, attrState: this.state.attrState}]});
+            this.setAppState({cart: [...this.appState.cart, {...this.state.product, gallery: this.state.product.gallery[0], attrState: this.state.attrState}]});
         }
     }
 

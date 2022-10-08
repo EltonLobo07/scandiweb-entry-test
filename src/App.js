@@ -7,15 +7,24 @@ import AppState from "./AppState";
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      categoryNames: null,
-      curCategoryName: null,
-      currencies: null,
-      curCurrencySymbol: null,
-      categoryChangedUsingHeader: false,
-      cart: []
-    };
+    this.appStateLocalStorageKey = "appState";
+
+    const appStateInLS = window.localStorage.getItem(this.appStateLocalStorageKey);
+    this.state = appStateInLS ? JSON.parse(appStateInLS) : this.getDefaultValState();
     this.setAppState = this.setAppState.bind(this); 
+  }
+
+  getDefaultValState() {
+    return (
+      {
+        categoryNames: null,
+        curCategoryName: null,
+        currencies: null,
+        curCurrencySymbol: null,
+        categoryChangedUsingHeader: false,
+        cart: []
+      }
+    );
   }
 
   componentDidMount() {
@@ -26,16 +35,25 @@ export default class App extends React.Component {
             .catch(err => console.log(err.message));
   }
 
+  componentDidUpdate() {
+    if (this.state.categoryChangedUsingHeader)
+      this.setState({categoryChangedUsingHeader: false});
+
+    this.syncLocalStorage();
+  }
+
+  syncLocalStorage() {
+    window.localStorage.setItem(this.appStateLocalStorageKey, JSON.stringify(this.state));
+  }
+
   render() {
     if (this.state.categoryNames === null || this.state.currencies === null)
       return <div>Loading...</div>;
 
-    if (this.state.categoryChangedUsingHeader) {
-      this.setState({categoryChangedUsingHeader: false});
+    if (this.state.categoryChangedUsingHeader)
       return <Navigate to = "/" />;
-    }
 
-    console.log("Current cart state:", JSON.stringify(this.state.cart));
+    // console.log("Current cart state:", JSON.stringify(this.state.cart));
 
     return (
       <div>
