@@ -35,7 +35,7 @@ export default class App extends React.Component {
       return <Navigate to = "/" />;
     }
 
-    console.log(this.state.cart);
+    console.log("Current cart state:", JSON.stringify(this.state.cart));
 
     return (
       <div>

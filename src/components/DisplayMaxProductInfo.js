@@ -28,7 +28,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                         for (let i = 0; i < res.attributes.length; i++)
                             initialAttrState.push(0);
 
-                        initialAttrState.push(0);
+                        initialAttrState.push(1);
                     }
                     
                     this.setState({product: res, attrState: initialAttrState});
@@ -71,7 +71,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                          alt = {`${product.name} number ${curImgIdx + 1}`}
                          style = {{width: "350px", height: "350px"}} />
                 </div>
-                <div>
+                <div style = {{display: "flex", flexDirection: "column", rowGap: "8px"}}>
                     <h3>
                         {product.brand}
                     </h3>
@@ -89,6 +89,22 @@ export default class DisplayMaxProductInfo extends React.Component {
                         </div>
                         <div>
                             {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}`}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            QUANTITY:
+                        </div>
+                        <div style = {{display: "flex", columnGap: "12px"}}>
+                            <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.decQuantity()}>
+                                -
+                            </button>
+                            <div>
+                                {this.state.attrState.at(-1)}
+                            </div>
+                            <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.incQuantity()}>
+                                +
+                            </button>
                         </div>
                     </div>
                     <button disabled = {!product.inStock} style = {{border: "1px solid black"}} onClick = {() => this.handleBtnClick()}>
@@ -119,6 +135,19 @@ export default class DisplayMaxProductInfo extends React.Component {
         else {
             this.setAppState({cart: [...this.appState.cart, {id: this.productId, attrState: this.state.attrState}]});
         }
+    }
+
+    incQuantity() {
+        const attrStateCpy = [...this.state.attrState];
+        attrStateCpy[attrStateCpy.length - 1]++;
+        this.setState({attrState: attrStateCpy});
+    }
+
+    decQuantity() {
+        const attrStateCpy = [...this.state.attrState];
+        const lastIdx = attrStateCpy.length - 1;
+        attrStateCpy[lastIdx] = Math.max(attrStateCpy[lastIdx] - 1, 1);
+        this.setState({attrState: attrStateCpy});
     }
 }
 
