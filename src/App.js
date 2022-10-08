@@ -12,7 +12,8 @@ export default class App extends React.Component {
       curCategoryName: null,
       currencies: null,
       curCurrencySymbol: null,
-      categoryChangedUsingHeader: false
+      categoryChangedUsingHeader: false,
+      cart: []
     };
     this.setAppState = this.setAppState.bind(this); 
   }
@@ -33,6 +34,8 @@ export default class App extends React.Component {
       this.setState({categoryChangedUsingHeader: false});
       return <Navigate to = "/" />;
     }
+
+    console.log(this.state.cart);
 
     return (
       <div>

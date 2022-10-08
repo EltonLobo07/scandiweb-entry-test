@@ -10,7 +10,8 @@ export default class DisplayMaxProductInfo extends React.Component {
         super(props);
         this.state = {
             product: undefined,
-            imgIdx: 0
+            curImgIdx: 0,
+            attrState: undefined
         };
         this.descriptionRef = React.createRef();
         this.setParentState = this.setParentState.bind(this);
@@ -20,13 +21,28 @@ export default class DisplayMaxProductInfo extends React.Component {
         const productId = window.location.pathname.slice(1);
         
         service.getSingleProduct(productId)
-               .then(res => this.setState({product: res}))
+               .then(res => {
+                    const initialAttrState = [];
+
+                    if (res !== null) {
+                        for (let i = 0; i < res.attributes.length; i++)
+                            initialAttrState.push(0);
+
+                        initialAttrState.push(0);
+                    }
+                    
+                    this.setState({product: res, attrState: initialAttrState});
+               })
                .catch(err => console.log(err.message));
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.product && this.descriptionRef.current.innerHTML === "")
             this.descriptionRef.current.innerHTML = this.state.product.description;
+
+        if (this.isProductInCart && this.state.attrState.join(",") !== prevState.attrState.join(",")) {
+            this.setAppState({cart: this.appState.cart.map(prodObj => prodObj.id === this.productId ? {...prodObj, attrState: [...this.state.attrState]} : prodObj)});
+        }
     }
 
     render() {
@@ -36,19 +52,23 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (this.state.product === null)
             return <UnknownPath />;
 
-        const { product, imgIdx } = this.state;
-        const { curCurrencySymbol } = this.context.appState;
+        const { product, curImgIdx } = this.state;
+        const { curCurrencySymbol, cart } = this.context.appState;
+        this.productId = product.id;
+        this.appState = this.context.appState;
+        this.setAppState = this.context.setAppState;
+        this.isProductInCart = cart.find(cartProdObj => cartProdObj.id === product.id) !== undefined;
 
         return (
             <div style = {{display: "flex", justifyContent: "center", alignItems: "center", columnGap: "12px"}}>
                 <div style = {{display: "flex", columnGap: "12px"}}>
                     <div style = {{display: "flex", flexDirection: "column", rowGap: "12px"}}>
                         {
-                            product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} curImgIdx = {this.state.imgIdx} setParentState = {this.setParentState} />)
+                            product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} curImgIdx = {curImgIdx} setParentState = {this.setParentState} />)
                         }
                     </div>
-                    <img src = {product.gallery[imgIdx]} 
-                         alt = {`${product.name} number ${imgIdx}`}
+                    <img src = {product.gallery[curImgIdx]} 
+                         alt = {`${product.name} number ${curImgIdx + 1}`}
                          style = {{width: "350px", height: "350px"}} />
                 </div>
                 <div>
@@ -60,7 +80,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                     </h4>
                     <div>
                         {
-                            product.attributes.map(attrObj => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} />)
+                            product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {this.state.attrState} setAttrState = {this.setParentState} />)
                         }
                     </div>
                     <div>
@@ -71,8 +91,8 @@ export default class DisplayMaxProductInfo extends React.Component {
                             {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}`}
                         </div>
                     </div>
-                    <button disabled = {!product.inStock} style = {{border: "1px solid black"}}>
-                        {product.inStock ? "ADD TO CART" : "OUT OF STOCK"}
+                    <button disabled = {!product.inStock} style = {{border: "1px solid black"}} onClick = {() => this.handleBtnClick()}>
+                        {this.generateBtnLabel(product.inStock)}
                     </button>
                     <div ref = {this.descriptionRef}
                          style = {{width: "250px"}}>
@@ -84,6 +104,21 @@ export default class DisplayMaxProductInfo extends React.Component {
 
     setParentState(obj) {
         this.setState(obj);
+    }
+
+    generateBtnLabel(inStock) {
+        if (inStock)
+            return this.isProductInCart ? "REMOVE FROM CART" : "ADD TO CART";
+
+        return "OUT OF STOCK";
+    }
+
+    handleBtnClick() {
+        if (this.isProductInCart)
+            this.setAppState({cart: this.appState.cart.filter(prodObj => prodObj.id !== this.productId)});
+        else {
+            this.setAppState({cart: [...this.appState.cart, {id: this.productId, attrState: this.state.attrState}]});
+        }
     }
 }
 

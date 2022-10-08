@@ -48,6 +48,7 @@ export const GET_CUR_CATEGORY_NAME_PRODUCTS = `
 export const GET_SINGLE_PRODUCT = `
     query($id: String!) {
         product(id: $id) {
+            id,
             gallery,
             brand,
             name,
