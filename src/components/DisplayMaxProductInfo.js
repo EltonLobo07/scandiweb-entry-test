@@ -13,6 +13,7 @@ export default class DisplayMaxProductInfo extends React.Component {
             imgIdx: 0
         };
         this.descriptionRef = React.createRef();
+        this.setParentState = this.setParentState.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +44,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                 <div style = {{display: "flex", columnGap: "12px"}}>
                     <div style = {{display: "flex", flexDirection: "column", rowGap: "12px"}}>
                         {
-                            product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} />)
+                            product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} curImgIdx = {this.state.imgIdx} setParentState = {this.setParentState} />)
                         }
                     </div>
                     <img src = {product.gallery[imgIdx]} 
@@ -79,6 +80,10 @@ export default class DisplayMaxProductInfo extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    setParentState(obj) {
+        this.setState(obj);
     }
 }
 
