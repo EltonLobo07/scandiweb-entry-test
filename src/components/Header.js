@@ -30,11 +30,22 @@ export default class Header extends React.Component {
                                       setAppState = {this.props.setAppState} />
 
                     <div>
-                        Cart button
+                        Cart ({this.getTotalProductsInTheCart()})
                     </div>
                 </div>
             </header>
         )
+    }
+
+    getTotalProductsInTheCart() {
+        const cart = this.props.appState.cart;
+
+        let count = 0;
+
+        for (let i = 0; i < cart.length; i++)
+            count += cart[i].attrState.at(-1);
+
+        return count;
     }
 
     handleCategoryNameClick(categoryName) {
