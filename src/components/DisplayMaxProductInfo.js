@@ -140,7 +140,9 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (this.isProductInCart)
             this.setAppState({cart: this.appState.cart.filter(prodObj => prodObj.id !== this.productId)});
         else {
-            this.setAppState({cart: [...this.appState.cart, {...this.state.product, gallery: this.state.product.gallery[0], attrState: this.state.attrState}]});
+            const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: this.state.attrState};
+            delete newCartProduct["description"];
+            this.setAppState({cart: [...this.appState.cart, newCartProduct]});
         }
     }
 

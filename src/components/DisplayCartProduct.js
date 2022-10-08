@@ -23,6 +23,11 @@ export default class DisplayCartProduct extends React.Component {
         } 
     }
 
+    handleRemoveFromCartBtnClick() {
+        const { appState, setAppState } = this.props;
+        setAppState({cart: appState.cart.filter(prodObj => prodObj.id !== this.product.id)});
+    }
+
     render() {
         const { appState } = this.props;
 
@@ -49,6 +54,10 @@ export default class DisplayCartProduct extends React.Component {
                             this.product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {this.state.attrState} setAttrState = {this.setParentState} />)
                         }
                     </div>
+                    <button onClick = {() => this.handleRemoveFromCartBtnClick()}
+                            style = {{border: "1px solid black"}}>
+                        Remove from cart
+                    </button>
                 </div>
                 <div style = {{display: "flex", columnGap: "8px"}}>
                     <div style = {{display: "flex", flexDirection: "column", RowGap: "12px", justifyContent: "space-between"}}>
