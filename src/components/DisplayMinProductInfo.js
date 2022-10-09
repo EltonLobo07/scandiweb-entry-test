@@ -19,45 +19,36 @@ export default class DisplayMinProductInfo extends React.Component {
             return <Navigate to = {`/${product.id}`} />;
 
         return (
-            <section onClick = {e => this.handleProductClick(e)} style = {{border: "1px solid yellow", display: "flex", flexDirection: "column", rowGap: "8px", alignItems: "center"}}>
-                <img src = {product.gallery[0]} 
-                     alt = {`${product.name}`}
-                     style = {{width: "350px", height: "350px"}} />
+            <section onClick = {e => this.handleProductClick(e)} className = "productsCard">
+                <div className = "imgContainer">
+                    <img src = {product.gallery[0]} alt = {`${product.name}`} />
+                    <div style = {{zIndex: product.inStock ? "0" : "2"}}>
+                        Out of stock
+                    </div>
+                </div>
 
                 <h2>
-                    {product.name}
+                    {`${product.brand} ${product.name}`}
                 </h2>
 
-                <div>
+                <div className = "price">
                     {curCurrencySymbol}
                     {product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}
                 </div>
 
-                {
-
-                    !this.isProductInCart
-                    ?
-                    (
-                        <button onClick = {() => this.handleCartClick()}
-                                style = {{border: "1px solid black", padding: "4px"}}>
-                            {
-                                product.inStock
-                                ?
-                                "Add to cart"
-                                :
-                                "Out of stock"
-                            }
-                        </button>
-                    )
-                    :
-                    null
-                }
+                <button className = "svgContainer" onClick = {() => this.handleCartClick()} style = {{display: product.inStock && !this.isProductInCart ? "inline-block" : "none"}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#5ECE7B" viewBox="0 0 24 24" strokeWidth="1" stroke="white">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                </button>
             </section>
         );
     }
 
     handleProductClick(e) {
-        if (e.target.tagName.toLowerCase() !== "button")
+        const tagName = e.target.tagName.toLowerCase(); 
+    
+        if (tagName !== "button" && tagName !== "path" && tagName !== "svg")
             this.setState({redirect: true});
     }
 

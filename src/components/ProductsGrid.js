@@ -42,17 +42,17 @@ export default class ProductsGrid extends React.Component {
     
     render() {
         if (this.state.products === null)
-            return <div style = {{position: "relative", zIndex: 1}}>Loading...</div>; 
+            return <div className = "loadingScreen">Loading...</div>; 
 
         const { curCategoryName, curCurrencySymbol } = this.context.appState;
 
         return (
-            <section style = {{backgroundColor: "lightblue", position: "relative", zIndex: 1}}>
-                <h1 style = {{fontSize: "48px", fontWeight: "bold"}}>
+            <section className = "productListingSection">
+                <h1>
                     {curCategoryName}
                 </h1>
 
-                <div style = {{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", rowGap: "8px", columnGap: "8px"}}>
+                <div className = "productsContainer">
                     {
                         this.state.products.map(product => {
                             return (
