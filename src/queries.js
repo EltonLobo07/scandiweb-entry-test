@@ -32,13 +32,25 @@ export const GET_CUR_CATEGORY_NAME_PRODUCTS = `
             products {
                 gallery,
                 name,
+                brand,
                 id,
                 inStock,
                 prices {
                     currency {
-                        symbol
+                        symbol,
+                        label
                     },
                     amount
+                },
+                attributes {
+                    id,
+                    name,
+                    type, 
+                    items {
+                        displayValue,
+                        value,
+                        id
+                    }
                 }
             }
         }

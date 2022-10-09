@@ -23,6 +23,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         
         service.getSingleProduct(productId)
                .then(res => {
+
                     const inCartProd = this.context.appState.cart.find(prodObj => prodObj.id === productId);
                     
                     if (inCartProd !== undefined) {
@@ -52,6 +53,9 @@ export default class DisplayMaxProductInfo extends React.Component {
     }
 
     componentDidUpdate() {
+        if (this.descriptionRef.current.innerHTML === "")
+            this.descriptionRef.current.innerHTML = this.state.product.description;
+
         if (this.isProductInCart) {
             const cartAttrState = this.prodObj.attrState;
             if (cartAttrState.join(",") !== this.state.attrState.join(","))

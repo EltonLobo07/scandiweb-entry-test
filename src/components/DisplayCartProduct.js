@@ -23,6 +23,12 @@ export default class DisplayCartProduct extends React.Component {
         setAppState({cart: newCart});
     } 
 
+    componentDidUpdate() {
+        const { appState, prodObjIdx } = this.props;
+        const product = appState.cart[prodObjIdx];
+        window.localStorage.setItem(product.id, JSON.stringify(product.attrState));
+    }
+
     render() {
         const { appState, prodObjIdx } = this.props;
 
