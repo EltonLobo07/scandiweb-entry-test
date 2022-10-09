@@ -1,19 +1,26 @@
 import React from "react";
+import AppState from "../AppState";
 import CurrencySwicther from "./CurrencySwitcher";
+import DisplayCartProduct from "./DisplayCartProduct";
 
 export default class Header extends React.Component {
     render() {
-        const { categoryNames, curCategoryName } = this.props.appState;
+        const { appState, setAppState } = this.context;
+        const { categoryNames, curCurrencySymbol, curCategoryName, displayCartOverlay } = appState;
+
+        const { totalQuantity, totalAmount } = this.getTotalQuantityAndAmount();
+        const cartOverLayDisplay = displayCartOverlay ? "inline-block" : "none";
 
         return (
-            <header style = {{border: "1px solid black", display: "flex", justifyContent: "space-around"}}>
+            <header style = {{position: "relative", zIndex: "2", border: "1px solid black", display: "flex", justifyContent: "space-around"}}>
                 <nav style = {{display: "flex", columnGap: "12px"}}>
                     {
                         categoryNames.map(categoryName => {
                             return (
                                 <button key = {categoryName}
                                         onClick = {() => this.handleCategoryNameClick(categoryName)}
-                                        style = {{border: `1px solid ${categoryName === curCategoryName ? "black" : "white"}`}}>
+                                        style = {{border: `1px solid ${categoryName === curCategoryName ? "black" : "white"}`}}
+                                >
                                     {categoryName}
                                 </button>
                             );
@@ -25,20 +32,66 @@ export default class Header extends React.Component {
                     Shop logo
                 </div>
 
-                <div style = {{display: "flex", columnGap: "12px"}}>
-                    <CurrencySwicther appState = {this.props.appState}
-                                      setAppState = {this.props.setAppState} />
+                <div style = {{display: "flex", columnGap: "12px", position: "relative"}}>
+                    <CurrencySwicther appState = {appState}
+                                      setAppState = {setAppState} />
 
-                    <div>
+                    <div onClick = {() => this.handleCartClick()}>
                         Cart ({this.getTotalProductsInTheCart()})
+                    </div>
+
+                    <div style = {{position: "absolute", display: cartOverLayDisplay, top: "27px", right: "0px", backgroundColor: "white", padding: "4px", width: "500px"}}>
+                        <div>
+                            My bag {totalQuantity} items
+                        </div>
+
+                        <div>
+                            {
+                                appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} />)
+                            }
+                        </div>
+
+                        <div>
+                            Total: {`${curCurrencySymbol}${totalAmount.toFixed(2)}`}
+                        </div>
+
+                        <div>
+                            <button onClick = {() => setAppState({viewBag: true, displayCartOverlay: false})} style = {{border: "1px solid black"}}>
+                                View Bag
+                            </button>
+                            <button style = {{border: "1px solid black"}}>
+                                Checkout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
         )
     }
 
+    getTotalQuantityAndAmount() {
+        const { cart, curCurrencySymbol } = this.context.appState;
+
+        let totalQuantity = 0;
+        let totalAmount = 0;
+
+        for (let i = 0; i < cart.length; i++) {
+            const prodObj = cart[i];
+            const qty = prodObj.attrState.at(-1);
+            totalQuantity += qty;
+            totalAmount += qty * prodObj.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount; 
+        }
+
+        return {totalQuantity, totalAmount};
+    }
+
+    handleCartClick() {
+        const { appState, setAppState } = this.context;
+        setAppState({displayCartOverlay: !appState.displayCartOverlay});
+    }
+
     getTotalProductsInTheCart() {
-        const cart = this.props.appState.cart;
+        const cart = this.context.appState.cart;
 
         let count = 0;
 
@@ -49,6 +102,8 @@ export default class Header extends React.Component {
     }
 
     handleCategoryNameClick(categoryName) {
-        this.props.setAppState({curCategoryName: categoryName, categoryChangedUsingHeader: true});
+        this.context.setAppState({curCategoryName: categoryName, categoryChangedUsingHeader: true, displayCartOverlay: false});
     }
 }
+
+Header.contextType = AppState;

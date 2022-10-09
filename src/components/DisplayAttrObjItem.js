@@ -2,12 +2,7 @@ import React from "react";
 
 export default class DisplayAttrObjItem extends React.Component {
     render() {
-        const { type, itemObj, itemIdx, attrIdx, attrState, setAttrState } = this.props;
-
-        this.itemIdx = itemIdx;
-        this.attrIdx = attrIdx;
-        this.attrState = attrState;
-        this.setAttrState = setAttrState;
+        const { type, itemObj, itemIdx, attrIdx, attrState } = this.props;
 
         const selectedItemIdx = attrState[attrIdx];
         const isCurItemSelected = itemIdx === selectedItemIdx;
@@ -43,8 +38,9 @@ export default class DisplayAttrObjItem extends React.Component {
     }
 
     handleAttrClick() {
-        const attrStateCpy = [...this.attrState];
-        attrStateCpy[this.attrIdx] = this.itemIdx;
-        this.setAttrState({attrState: attrStateCpy});
+        const { itemIdx, attrIdx, attrState, setAttrState } = this.props;
+        const attrStateCpy = [...attrState];
+        attrStateCpy[attrIdx] = itemIdx;
+        setAttrState({attrState: attrStateCpy});
     }
 }

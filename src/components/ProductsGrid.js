@@ -42,12 +42,12 @@ export default class ProductsGrid extends React.Component {
     
     render() {
         if (this.state.products === null)
-            return <div>Loading...</div>; 
+            return <div style = {{position: "relative", zIndex: 1}}>Loading...</div>; 
 
         const { curCategoryName, curCurrencySymbol } = this.context.appState;
 
         return (
-            <section>
+            <section style = {{backgroundColor: "lightblue", position: "relative", zIndex: 1}}>
                 <h1 style = {{fontSize: "48px", fontWeight: "bold"}}>
                     {curCategoryName}
                 </h1>

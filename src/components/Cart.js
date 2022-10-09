@@ -8,7 +8,7 @@ export default class Cart extends React.Component {
         const { totalQuantity, totalAmount } = this.getTotalQuantityAndAmount(); 
 
         return (
-            <section>
+            <section style = {{position: "relative", zIndex: "1", backgroundColor: "white"}}>
                 <h1>
                     Cart
                 </h1>
