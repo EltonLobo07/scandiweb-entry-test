@@ -30,6 +30,13 @@ export default class DisplayMaxProductInfo extends React.Component {
                         return;
                     }
 
+                    const attrStateInLS = window.localStorage.getItem(productId);
+
+                    if (attrStateInLS) {
+                        this.setState({product: res, attrState: JSON.parse(attrStateInLS)});
+                        return;
+                    }
+
                     const initialAttrState = [];
 
                     if (res !== null) {
@@ -42,6 +49,16 @@ export default class DisplayMaxProductInfo extends React.Component {
                     this.setState({product: res, attrState: initialAttrState});
                })
                .catch(err => console.log(err.message));
+    }
+
+    componentDidUpdate() {
+        if (this.isProductInCart) {
+            const cartAttrState = this.prodObj.attrState;
+            if (cartAttrState.join(",") !== this.state.attrState.join(","))
+                this.setState({attrState: [...cartAttrState]});
+        }
+
+        window.localStorage.setItem(this.productId, JSON.stringify(this.state.attrState));
     }
 
     render() {
@@ -57,6 +74,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         this.appState = this.context.appState;
         this.setAppState = this.context.setAppState;
         const prodObj = cart.find(prodObj => prodObj.id === this.productId);
+        this.prodObj = prodObj;
         this.isProductInCart = prodObj !== undefined;
         const curAttrState = this.isProductInCart ? prodObj.attrState : this.state.attrState;
 
@@ -158,30 +176,45 @@ export default class DisplayMaxProductInfo extends React.Component {
     }
 
     incQuantity() {
-        const { appState, setAppState } = this.context;
-        const newCart = appState.cart.map(prodObj => {
-            if (prodObj.id === this.productId) {
-                const newProdAttrState = [...prodObj.attrState];
-                newProdAttrState[newProdAttrState.length - 1]++;
-                return {...prodObj, attrState: newProdAttrState};
-            }
-            return prodObj;
-        });
-        setAppState({cart: newCart});
+        if (this.isProductInCart) {
+            const { appState, setAppState } = this.context;
+            const newCart = appState.cart.map(prodObj => {
+                if (prodObj.id === this.productId) {
+                    const newProdAttrState = [...prodObj.attrState];
+                    newProdAttrState[newProdAttrState.length - 1]++;
+                    return {...prodObj, attrState: newProdAttrState};
+                }
+                return prodObj;
+            });
+            setAppState({cart: newCart});
+        }
+        else {
+            const newAttrState = [...this.state.attrState];
+            newAttrState[newAttrState.length - 1]++;
+            this.setState({attrState: newAttrState});
+        }
     }
 
     decQuantity() {
-        const { appState, setAppState } = this.context;
-        const newCart = appState.cart.map(prodObj => {
-            if (prodObj.id === this.productId) {
-                const newProdAttrState = [...prodObj.attrState];
-                const lastIdx = newProdAttrState.length - 1;
-                newProdAttrState[lastIdx] = Math.max(1, newProdAttrState[lastIdx] - 1);
-                return {...prodObj, attrState: newProdAttrState};
-            }
-            return prodObj;
-        });
-        setAppState({cart: newCart});
+        if (this.isProductInCart) {
+            const { appState, setAppState } = this.context;
+            const newCart = appState.cart.map(prodObj => {
+                if (prodObj.id === this.productId) {
+                    const newProdAttrState = [...prodObj.attrState];
+                    const lastIdx = newProdAttrState.length - 1;
+                    newProdAttrState[lastIdx] = Math.max(1, newProdAttrState[lastIdx] - 1);
+                    return {...prodObj, attrState: newProdAttrState};
+                }
+                return prodObj;
+            });
+            setAppState({cart: newCart});
+        }
+        else {
+            const newAttrState = [...this.state.attrState];
+            const lastIdx = newAttrState.length - 1;
+            newAttrState[lastIdx] = Math.max(1, newAttrState[lastIdx] - 1);
+            this.setState({attrState: newAttrState});
+        }
     }
 }
 
