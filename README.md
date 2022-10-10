@@ -3,6 +3,7 @@
 ## Personal Information
 Name: Elton <br>
 Surname: Lobo
+Gmail: eltonsw00@gmail.com
 
 ## How to start
 1. Follow the "How to start" steps mentioned [here](https://github.com/scandiweb/junior-react-endpoint)
