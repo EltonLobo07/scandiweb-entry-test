@@ -25,7 +25,8 @@ export default class App extends React.Component {
         categoryChangedUsingHeader: false,
         viewBag: false,
         cart: [],
-        displayCartOverlay: false
+        displayCartOverlay: false,
+        displayCurrencyOptions: false
       }
     );
   }
@@ -84,18 +85,28 @@ export default class App extends React.Component {
   }
 
   handleGlobalClick(e) {
+    const newState = {};
+
+    if (e.target.closest("#currencySwitcher") === null)
+      newState["displayCurrencyOptions"] = false;
+    else
+      newState["displayCurrencyOptions"] = !this.state.displayCurrencyOptions;
+
     const res = e.target.closest(".miniCart");
 
     if (res)
+    {
+      this.setState(newState);
       return;
+    }
 
     const newRes = e.target.closest(".cartOverlayOpenerBtn");
 
     if (newRes) {
-      this.setAppState({displayCartOverlay: !this.state.displayCartOverlay});
+      this.setAppState({displayCartOverlay: !this.state.displayCartOverlay, ...newState});
       return;
     }
       
-    this.setAppState({displayCartOverlay: false});
+    this.setAppState({displayCartOverlay: false, ...newState});
   }
 }

@@ -868,3 +868,11 @@ header > svg {
   text-transform: uppercase;
   cursor: pointer;
 }
+
+.currencyBtn {
+  background-color: white;
+}
+
+.currencyBtn:hover {
+  background-color: lightgray;
+}
