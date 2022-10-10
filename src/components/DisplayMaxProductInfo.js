@@ -158,7 +158,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (idxOfSimilarEntry === -1) {
             const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: curAttrState, moreThanOnePic: this.state.product.gallery.length > 1};
             delete newCartProduct["description"];
-            this.setAppState({cart: [...this.appState.cart, newCartProduct]});
+            setAppState({cart: [...this.appState.cart, newCartProduct]});
         }
         else {
             setAppState({cart: cart.map((prodObj, prodObjIdx) => {
