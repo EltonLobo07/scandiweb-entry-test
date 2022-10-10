@@ -65,7 +65,7 @@ export default class App extends React.Component {
       return <Navigate to = "/cart" />;
 
     return (
-      <div style = {{position: "relative", zIndex: 0}} className = "appContainer">
+      <div style = {{position: "relative", zIndex: 0}} className = "appContainer" onClick = {(e) => this.handleGlobalClick(e)}>
         <AppState.Provider value = {{appState: this.state, setAppState: this.setAppState}}>
           <Header />
           <div className = "behindHeader"></div>
@@ -81,5 +81,21 @@ export default class App extends React.Component {
 
   setAppState(obj) {
     this.setState(obj);
+  }
+
+  handleGlobalClick(e) {
+    const res = e.target.closest(".miniCart");
+
+    if (res)
+      return;
+
+    const newRes = e.target.closest(".cartOverlayOpenerBtn");
+
+    if (newRes) {
+      this.setAppState({displayCartOverlay: !this.state.displayCartOverlay});
+      return;
+    }
+      
+    this.setAppState({displayCartOverlay: false});
   }
 }

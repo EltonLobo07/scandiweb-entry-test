@@ -70,9 +70,8 @@ export default class DisplayMinProductInfo extends React.Component {
                 attrState.push(1);
             }
 
-            const newProductInCart = {...product, attrState};
+            const newProductInCart = {...product, attrState, moreThanOnePic: product.gallery.length > 1};
             newProductInCart.gallery = newProductInCart.gallery[0];
-            // delete newProductInCart["description"];
             setAppState({cart: [...appState.cart, newProductInCart]});
         }
     }

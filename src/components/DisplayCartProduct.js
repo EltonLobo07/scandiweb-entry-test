@@ -76,7 +76,7 @@ export default class DisplayCartProduct extends React.Component {
         }
 
         return (
-        <div>
+        <div style = {{width: "100%"}}>
             <div className = "cartProductContainer">
                 <div className = "cartProductInfo" style = {{rowGap: smallVersion ? "8px" : "16px"}}>
                     <div>
@@ -119,10 +119,29 @@ export default class DisplayCartProduct extends React.Component {
                             -
                         </button>
                     </div>
-                    <img src = {product.gallery} 
-                         alt = {`${product.name}`}
-                         className = "cartImage"
-                         style = {{width: imageWidth, height: imageHeight}} />
+                    <div style = {{position: "relative", zIndex: "0"}}>
+                        <img src = {product.gallery} 
+                            alt = {`${product.name}`}
+                            className = "cartImage"
+                            style = {{width: imageWidth, height: imageHeight}} />
+
+                        {
+                            product.moreThanOnePic 
+                            ?
+                            (
+                                <div style = {{position: "absolute", top: "75%", left: "50%", display: "flex", columnGap: smallVersion ? "8px" : "16px"}}>
+                                    <button style = {{backgroundColor: "rgba(0, 0, 0, 0.6)", color: "white", width: smallVersion ? "24px" : "32px", height: smallVersion ? "24px" : "32px", border: "none"}}>
+                                        {"<"}
+                                    </button>
+                                    <button style = {{backgroundColor: "rgba(0, 0, 0, 0.6)", color: "white", width: smallVersion ? "24px" : "32px", height: smallVersion ? "24px" : "32px", border: "none"}}>
+                                        {">"}
+                                    </button>
+                                </div>
+                            )
+                            :
+                            null
+                        }
+                    </div>
                 </div>
             </div>
             {

@@ -59,14 +59,14 @@ export default class DisplayMaxProductInfo extends React.Component {
             return <UnknownPath />;
 
         const { product, curImgIdx } = this.state;
-        const { curCurrencySymbol, cart } = this.context.appState;
+        const { curCurrencySymbol } = this.context.appState;
         this.productId = product.id;
         this.appState = this.context.appState;
         this.setAppState = this.context.setAppState;
         const curAttrState = this.state.attrState;
 
         return (
-            <div className = "mainContainer productDescriptionContainer" style = {{position: "relative", zIndex: "1"}}>
+            <div className = "mainContainer productDescriptionContainer" style = {{position: "relative", zIndex: "0", overflowY: "scroll"}}>
                 <div className = "imagesContainer">
                     <div style = {{display: "flex", flexDirection: "column", rowGap: "12px"}}>
                         {
@@ -156,7 +156,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         });
 
         if (idxOfSimilarEntry === -1) {
-            const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: curAttrState};
+            const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: curAttrState, moreThanOnePic: this.state.product.gallery.length > 1};
             delete newCartProduct["description"];
             this.setAppState({cart: [...this.appState.cart, newCartProduct]});
         }

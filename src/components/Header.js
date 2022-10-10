@@ -40,7 +40,7 @@ export default class Header extends React.Component {
                     <CartOverLayOpener onClick = {() => this.handleCartClick()} 
                                        numItems = {this.getTotalProductsInTheCart()} />
 
-                    <div style = {{position: "absolute", display: cartOverLayDisplay, top: "59px", right: "0px", backgroundColor: "white", padding: "8px", maxHeight: "calc(100vh - 85px)", overflowY: "auto", minWidth: "320px"}}>
+                    <div style = {{position: "absolute", display: cartOverLayDisplay, top: "59px", right: "0px", backgroundColor: "white", padding: "8px 20px", maxHeight: "calc(100vh - 90px)", overflowY: "auto", minWidth: "320px"}} className = "miniCart">
                         <div style = {{marginBottom: "24px"}}>
                             <span style = {{fontWeight: "bold", textTransform: "capitalize"}}>
                                 My bag,
