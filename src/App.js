@@ -65,11 +65,12 @@ export default class App extends React.Component {
       return <Navigate to = "/cart" />;
 
     return (
-      <div style = {{position: "relative", zIndex: 0}}>
+      <div style = {{position: "relative", zIndex: 0}} className = "appContainer">
         <AppState.Provider value = {{appState: this.state, setAppState: this.setAppState}}>
           <Header />
+          <div className = "behindHeader"></div>
 
-          <div style = {{position: "relative", zIndex: 0}}>
+          <div className = "mainContainer" style = {{position: "relative", zIndex: 0}}>
             <CartOverlay />
             <Outlet />
           </div>

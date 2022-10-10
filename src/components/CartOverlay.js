@@ -9,7 +9,7 @@ export default class CartOverlay extends React.Component {
         const cartOverlayZIdx = displayCartOverlay ? "2" : "0";
 
         return (
-            <div style = {{position: "absolute", zIndex: cartOverlayZIdx, height: "100vh", width: "100%", backgroundColor: "rgba(0, 0, 0, 0.6)", }} onClick = {() => setAppState({displayCartOverlay: false})}>
+            <div className = ".cartOverlayTransparentScreen mainContainer" style = {{position: "absolute", zIndex: cartOverlayZIdx, width: "100%", backgroundColor: "rgba(0, 0, 0, 0.6)"}} onClick = {() => setAppState({displayCartOverlay: false})}>
             </div>
         );
     }

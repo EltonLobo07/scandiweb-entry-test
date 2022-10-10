@@ -13,8 +13,8 @@ export default class Header extends React.Component {
         const cartOverLayDisplay = displayCartOverlay ? "inline-block" : "none";
 
         return (
-            <header style = {{position: "relative", zIndex: "2", display: "flex", justifyContent: "space-around"}}>
-                <nav style = {{display: "flex", columnGap: "12px"}}>
+            <header style = {{zIndex: "2"}}>
+                <nav>
                     {
                         categoryNames.map(categoryName => {
                             return (

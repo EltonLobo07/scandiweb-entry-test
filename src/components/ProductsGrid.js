@@ -47,7 +47,7 @@ export default class ProductsGrid extends React.Component {
         const { curCategoryName, curCurrencySymbol } = this.context.appState;
 
         return (
-            <section className = "productListingSection">
+            <section className = "productListingSection mainContainer">
                 <h1>
                     {curCategoryName}
                 </h1>

@@ -364,6 +364,19 @@ body {
 }
 
 /*
+ MAIN LAYOUT
+ ------------------------------------------------------------------------------------------------------
+*/
+html, body, #root, .appContainer {
+  height: 100vh;
+}
+
+.mainContainer {
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+}
+
+/*
   LOADING SCREEN
   ------------------------------------------------------------------------------------------------------
 */
@@ -382,11 +395,26 @@ body {
   HEADER
   ------------------------------------------------------------------------------------------------------
 */
+.behindHeader {
+  height: 80px;
+}
+
 header {
   height: 80px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 1px lightgray;
+}
+
+header > nav {
+  display: flex;
+  column-gap: 12px;
 }
 
 header > nav > button {
@@ -442,7 +470,6 @@ header > svg {
   z-index: 1;
   background-color: white;
   padding: 32px 64px;
-  min-height: 100vh;
 }
 
 .productListingSection > h1 {
