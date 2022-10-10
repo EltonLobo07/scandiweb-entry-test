@@ -3,11 +3,11 @@ import DisplayAttrObjItem from "./DisplayAttrObjItem";
 
 export default class DisplayAttrObj extends React.Component {
     render() {
-        const { attrObj, attrIdx, attrState, setAttrState } = this.props;
+        const { attrObj, attrIdx, attrState, setAttrState, smallVersion } = this.props;
 
         return (
             <div className = "attrNameAndSelector">
-                <div className = "productInfoAttrName">    
+                <div style = {{fontSize: "16px", rowGap: smallVersion ? "1px" : "4px", fontWeight: smallVersion ? "400" : "bold", textTransform: smallVersion ? "none" : "uppercase"}}>    
                     {
                         attrObj.name
                     }
@@ -22,7 +22,8 @@ export default class DisplayAttrObj extends React.Component {
                                                                                     itemIdx = {itemIdx}
                                                                                     attrIdx = {attrIdx}
                                                                                     attrState = {attrState}
-                                                                                    setAttrState = {setAttrState} />)
+                                                                                    setAttrState = {setAttrState}
+                                                                                    smallVersion = {smallVersion} />)
                     }
                 </div>
             </div>

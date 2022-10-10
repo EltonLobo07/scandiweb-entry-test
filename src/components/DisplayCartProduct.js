@@ -30,57 +30,74 @@ export default class DisplayCartProduct extends React.Component {
     }
 
     render() {
-        const { appState, prodObjIdx } = this.props;
+        const { appState, prodObjIdx, smallVersion } = this.props;
 
         const { curCurrencySymbol, cart  } = appState;
         const product = cart[prodObjIdx];
         const productAttrState = product.attrState;
 
+        let quantityChangeBtnDim, reduceFontSize, imageWidth, imageHeight;
+        if (smallVersion) {
+            quantityChangeBtnDim = "24px";
+            reduceFontSize = {fontSize: "16px"};
+            imageWidth = "121px";
+            imageHeight = "190px";
+        }
+        else {
+            quantityChangeBtnDim = "45px";
+            reduceFontSize = {};
+            imageWidth = "200px";
+            imageHeight = "288px";
+        }
+
         return (
         <div>
             <div className = "cartProductContainer">
-                <div className = "cartProductInfo">
+                <div className = "cartProductInfo" style = {{rowGap: smallVersion ? "8px" : "16px"}}>
                     <div>
-                        <div className = "productBrandName">
+                        <div className = "productBrandName" style = {{...reduceFontSize, fontWeight: smallVersion ? "400" : "bold"}}>
                             {
                                 product.brand
                             }
                         </div>
-                        <div className = "productName">
+                        <div className = "productName" style = {reduceFontSize}>
                             {
                                 product.name
                             }
                         </div>
                     </div>
                     
-                    <div className = "cartPrice">
+                    <div className = "cartPrice" style = {reduceFontSize}>
                         {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}`}
                     </div>
                     <div className = "cartAttrs">
                         {
-                            product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {productAttrState} setAttrState = {this.setProductAttrState} />)
+                            product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {productAttrState} setAttrState = {this.setProductAttrState} smallVersion = {smallVersion} />)
                         }
                     </div>
                     <button onClick = {() => this.handleRemoveFromCartBtnClick()}
-                            className = "cartRemoveBtn">
+                            className = "cartRemoveBtn"
+                            style = {reduceFontSize}>
                         Remove from cart
                     </button>
                 </div>
                 <div className = "cartImageQuantityChangeAndDisplay">
                     <div className = "cartQuantityChangeAndDisplay">
-                        <button className = "quantityChangeBtn" onClick = {() => this.incQuantity()}>
+                        <button className = "quantityChangeBtn" onClick = {() => this.incQuantity()}
+                                style = {{...reduceFontSize, width: quantityChangeBtnDim, height: quantityChangeBtnDim}}>
                             +
                         </button>
-                        <div className = "cartQuantityDisplay">
+                        <div className = "cartQuantityDisplay" style = {reduceFontSize}>
                             {productAttrState.at(-1)}
                         </div>
-                        <button className = "quantityChangeBtn" onClick = {() => this.decQuantity()}>
+                        <button className = "quantityChangeBtn" onClick = {() => this.decQuantity()} style = {{...reduceFontSize, width: quantityChangeBtnDim, height: quantityChangeBtnDim}}>
                             -
                         </button>
                     </div>
                     <img src = {product.gallery} 
                          alt = {`${product.name}`}
-                         className = "cartImage" />
+                         className = "cartImage"
+                         style = {{width: imageWidth, height: imageHeight}} />
                 </div>
             </div>
             {

@@ -33,7 +33,7 @@ export default class DisplayMinProductInfo extends React.Component {
 
                 <div className = "price">
                     {curCurrencySymbol}
-                    {product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}
+                    {product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}
                 </div>
 
                 <button className = "svgContainer" onClick = {() => this.handleCartClick()} style = {{display: product.inStock && !this.isProductInCart ? "inline-block" : "none"}}>

@@ -40,26 +40,34 @@ export default class Header extends React.Component {
                     <CartOverLayOpener onClick = {() => this.handleCartClick()} 
                                        numItems = {this.getTotalProductsInTheCart()} />
 
-                    <div style = {{position: "absolute", display: cartOverLayDisplay, top: "59px", right: "0px", backgroundColor: "white", padding: "4px", width: "500px"}}>
-                        <div>
-                            My bag {totalQuantity} items
+                    <div style = {{position: "absolute", display: cartOverLayDisplay, top: "59px", right: "0px", backgroundColor: "white", padding: "8px", maxHeight: "calc(100vh - 85px)", overflowY: "auto", minWidth: "320px"}}>
+                        <div style = {{marginBottom: "24px"}}>
+                            <span style = {{fontWeight: "bold", textTransform: "capitalize"}}>
+                                My bag,
+                            </span> 
+                            {` ${totalQuantity}`} items
                         </div>
 
-                        <div>
+                        <div style = {{display: "flex", flexDirection: "column", rowGap: "32px"}}>
                             {
-                                appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} />)
+                                appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} smallVersion = {true} />)
                             }
                         </div>
 
-                        <div>
-                            Total: {`${curCurrencySymbol}${totalAmount.toFixed(2)}`}
+                        <div style = {{display: "flex", justifyContent: "space-between", fontWeight: "bold", marginTop: "24px", marginBottom: "24px"}}>
+                            <div>
+                                Total:
+                            </div>
+                            <div>
+                                {`${curCurrencySymbol}${totalAmount.toFixed(2)}`}
+                            </div>
                         </div>
 
-                        <div>
-                            <button onClick = {() => setAppState({viewBag: true, displayCartOverlay: false})} style = {{border: "1px solid black"}}>
+                        <div style = {{display: "flex", justifyContent: "center", columnGap: "24px"}}>
+                            <button onClick = {() => setAppState({viewBag: true, displayCartOverlay: false})} className = "cartOverlayBtn" style = {{backgroundColor: "white", color: "black"}}>
                                 View Bag
                             </button>
-                            <button style = {{border: "1px solid black"}}>
+                            <button className = "cartOverlayBtn" style = {{backgroundColor: "#5ECE7B", color: "white", borderColor: "#5ECE7B"}}>
                                 Checkout
                             </button>
                         </div>
