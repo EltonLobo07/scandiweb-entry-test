@@ -1,5 +1,9 @@
 # Scandiweb entry test
 
+## Personal Information
+Name: Elton <br>
+Surname: Lobo
+
 ## How to start
 1. Follow the "How to start" steps mentioned [here](https://github.com/scandiweb/junior-react-endpoint)
 2. Make sure the server is ready at this address: http://localhost:4000/
