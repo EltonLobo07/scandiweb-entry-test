@@ -93,7 +93,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                         }
                     </div>
                     <div className = "attrNameAndSelector">
-                        <div className = "productInfoAttrName">
+                        <div className = "productInfoAttrName" style = {{textTransform: "uppercase", fontWeight: "bold"}}>
                             Price:
                         </div>
                         <div className = "pDPPriceDisplayer">
@@ -101,7 +101,7 @@ export default class DisplayMaxProductInfo extends React.Component {
                         </div>
                     </div>
                     <div className = "attrNameAndSelector">
-                        <div className = "productInfoAttrName">
+                        <div className = "productInfoAttrName" style = {{textTransform: "uppercase", fontWeight: "bold"}}>
                             Quantity:
                         </div>
                         <div className = "quantityChangersAndDisplay">

@@ -93,7 +93,7 @@ export default class DisplayCartProduct extends React.Component {
                     </div>
                     
                     <div className = "cartPrice" style = {reduceFontSize}>
-                        {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}`}
+                        {`${curCurrencySymbol}${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}`}
                     </div>
                     <div className = "cartAttrs">
                         {
