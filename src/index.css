@@ -561,8 +561,7 @@ header > svg {
 .imgContainer > img {
   width: 356px;
   height: 338px;
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain;
   position: relative;
   z-index: 1;
 }
@@ -588,4 +587,131 @@ header > svg {
   PRODUCT DESCRIPTION PAGE
   ------------------------------------------------------------------------------------------------------
 */
+.productDescriptionContainer {
+  padding: 16px 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  column-gap: 64px;
+}
 
+.mainImage {
+  width: 610px;
+  height: 511px;
+  object-fit: contain;
+}
+
+.smallImage {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  cursor: pointer;
+  margin-bottom: -4px;
+}
+
+.imagesContainer {
+  display: flex;
+  column-gap: 24px;
+}
+
+.productBrandAndNameContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.productBrandAndNameContainer > * {
+  margin: 0;
+  font-size: 30px;
+}
+
+.productBrandAndNameContainer > h4 {
+  font-weight: 400;
+}
+
+.productInfoContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.productInfoAttrName {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.attrNameAndSelector {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.attrOption {
+  cursor: pointer;
+}
+
+.textAttrOption {
+  width: 63px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  border: 1px solid black;
+  margin: 4px;
+}
+
+.swatchAttrOption {
+  width: 34px;
+  height: 34px;
+  border: 2px solid white;
+}
+
+.attrsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.pDPPriceDisplayer {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.quantityChangeBtn {
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.quantityDisplay {
+  width: 64px;
+  text-align: center;
+  overflow-x: auto;
+  font-size: 24px;
+}
+
+.quantityChangersAndDisplay {
+  display: flex;
+  flex-direction: row;
+  column-gap: 16px;
+  align-items: center;
+}
+
+.pDPAddToCartBtn {
+  width: 292px;
+  height: 52px;
+  color: white;
+  border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pDPProductDescription {
+  width: 292px;
+}

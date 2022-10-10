@@ -6,8 +6,8 @@ export default class DisplayAttrObj extends React.Component {
         const { attrObj, attrIdx, attrState, setAttrState } = this.props;
 
         return (
-            <div>
-                <div>
+            <div className = "attrNameAndSelector">
+                <div className = "productInfoAttrName">    
                     {
                         attrObj.name
                     }

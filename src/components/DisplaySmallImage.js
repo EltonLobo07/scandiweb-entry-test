@@ -5,10 +5,12 @@ export default class DisplaySmallImage extends React.Component {
         const { imgIdx, product, curImgIdx, setParentState } = this.props;
 
         return (
-            <img src = {product.gallery[imgIdx]} 
+            <div style = {{border: `2px solid ${curImgIdx === imgIdx ? "#5ECE7B" : "white"}`}}>
+                <img src = {product.gallery[imgIdx]} 
                  alt = {`${product.name} number ${imgIdx + 1}`}
                  onClick = {() => setParentState({curImgIdx: imgIdx})}
-                 style = {{width: "75px", height: "75px", border: `1px solid ${curImgIdx === imgIdx ? "yellow" : "white"}`}} />
+                 className = "smallImage" />
+            </div>
         )
     }
 }

@@ -83,8 +83,8 @@ export default class DisplayMaxProductInfo extends React.Component {
         const curAttrState = this.isProductInCart ? prodObj.attrState : this.state.attrState;
 
         return (
-            <div style = {{position: "relative", zIndex: "1", backgroundColor: "white", display: "flex", justifyContent: "center", alignItems: "center", columnGap: "12px"}}>
-                <div style = {{display: "flex", columnGap: "12px"}}>
+            <div className = "mainContainer productDescriptionContainer" style = {{position: "relative", zIndex: "1"}}>
+                <div className = "imagesContainer">
                     <div style = {{display: "flex", flexDirection: "column", rowGap: "12px"}}>
                         {
                             product.gallery.map((imgLink, imgIdx) => <DisplaySmallImage key = {imgLink} imgIdx = {imgIdx} product = {product} curImgIdx = {curImgIdx} setParentState = {this.setParentState} />)
@@ -92,49 +92,52 @@ export default class DisplayMaxProductInfo extends React.Component {
                     </div>
                     <img src = {product.gallery[curImgIdx]} 
                          alt = {`${product.name} number ${curImgIdx + 1}`}
-                         style = {{width: "350px", height: "350px"}} />
+                         className = "mainImage" />
                 </div>
-                <div style = {{display: "flex", flexDirection: "column", rowGap: "8px"}}>
-                    <h3>
-                        {product.brand}
-                    </h3>
-                    <h4>
-                        {product.name}
-                    </h4>
-                    <div>
+                <div className = "productInfoContainer">
+                    <div className = "productBrandAndNameContainer">
+                        <h3>
+                            {product.brand}
+                        </h3>
+                        <h4>
+                            {product.name}
+                        </h4>
+                    </div>
+                    
+                    <div className = "attrsContainer">
                         {
                             product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {curAttrState} setAttrState = {this.setAttrState} />)
                         }
                     </div>
-                    <div>
-                        <div>
-                            PRICE:
+                    <div className = "attrNameAndSelector">
+                        <div className = "productInfoAttrName">
+                            Price:
                         </div>
-                        <div>
-                            {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}`}
+                        <div className = "pDPPriceDisplayer">
+                            {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}`}
                         </div>
                     </div>
-                    <div>
-                        <div>
-                            QUANTITY:
+                    <div className = "attrNameAndSelector">
+                        <div className = "productInfoAttrName">
+                            Quantity:
                         </div>
-                        <div style = {{display: "flex", columnGap: "12px"}}>
-                            <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.decQuantity()}>
+                        <div className = "quantityChangersAndDisplay">
+                            <button className = "quantityChangeBtn" onClick = {() => this.decQuantity()}>
                                 -
                             </button>
-                            <div>
+                            <div className = "quantityDisplay">
                                 {curAttrState.at(-1)}
                             </div>
-                            <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.incQuantity()}>
+                            <button className = "quantityChangeBtn" onClick = {() => this.incQuantity()}>
                                 +
                             </button>
                         </div>
                     </div>
-                    <button disabled = {!product.inStock} style = {{border: "1px solid black"}} onClick = {() => this.handleBtnClick()}>
+                    <button disabled = {!product.inStock} className = "pDPAddToCartBtn" onClick = {() => this.handleBtnClick()} style = {{backgroundColor: !product.inStock || this.isProductInCart ? "red" : "#5ECE7B"}}>
                         {this.generateBtnLabel(product.inStock)}
                     </button>
                     <div ref = {this.descriptionRef}
-                         style = {{width: "250px"}}>
+                         className = "pDPProductDescription">
                     </div>
                 </div>
             </div>

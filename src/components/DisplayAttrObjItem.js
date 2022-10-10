@@ -13,19 +13,18 @@ export default class DisplayAttrObjItem extends React.Component {
                     type === "swatch"
                     ?
                     (
-                        <div onClick = {() => this.handleAttrClick()}
-                             style = {{width: "32px", height: "32px",
-                                       backgroundColor: itemObj.value,
-                                       border: `2px solid ${isCurItemSelected ? "yellow" : "white"}`}}>
+                        <div style = {{border: `2px solid ${isCurItemSelected ? "#5ECE7B" : "white"}`}}>
+                            <div onClick = {() => this.handleAttrClick()}
+                                 className = "attrOption swatchAttrOption"
+                                 style = {{backgroundColor: itemObj.value}}>
+                            </div>
                         </div>
                     )
                     :
                     (
                         <div onClick = {() => this.handleAttrClick()}
-                             style = {{width: "63px", height: "45px",
-                                       border: "1px solid black",
-                                       textAlign: "center",
-                                       backgroundColor: `${isCurItemSelected ? "black" : "white"}`,
+                             className = "attrOption textAttrOption"
+                             style = {{backgroundColor: `${isCurItemSelected ? "black" : "white"}`,
                                        color: `${isCurItemSelected ? "white" : "black"}`}}>
                             {
                                 itemObj.displayValue
