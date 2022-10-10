@@ -602,7 +602,7 @@ header > svg {
   background-color: white;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   column-gap: 144px;
 }
 
@@ -841,7 +841,7 @@ header > svg {
   flex-direction: column;
   row-gap: 12px;
   width: 1180px;
-  align-items: start;
+  align-items: flex-start;
 }
 
 /*
