@@ -14,7 +14,7 @@ export default class UnknownPath extends React.Component {
             return <Navigate to = "/" />;
 
         return (
-            <div style = {{display: "flex", flexDirection: "column", alignItems: "center", rowGap: "12px"}}>
+            <div className = "unknownPathContainer">
                 <div>
                     Invalid path
                 </div>

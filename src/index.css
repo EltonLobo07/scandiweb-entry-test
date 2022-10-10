@@ -392,6 +392,32 @@ html, body, #root, .appContainer {
 }
 
 /*
+  UNKNOWN PATH
+  ------------------------------------------------------------------------------------------------------
+*/
+.unknownPathContainer {
+  height: calc(100vh - 80px);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.unknownPathContainer > button {
+  background-color: #5ECE7B;
+  border-radius: 12px;
+  color: white;
+  border: 1px solid lightgray;
+  padding: 4px;
+  cursor: pointer;
+}
+
+/*
   HEADER
   ------------------------------------------------------------------------------------------------------
 */
@@ -495,6 +521,7 @@ header > svg {
   border-radius: 2px;
   position: relative;
   z-index: 0;
+  cursor: pointer;
 }
 
 .productsCard > h2 {
@@ -556,3 +583,9 @@ header > svg {
   color: gray;
   font-weight: 600;
 }
+
+/*
+  PRODUCT DESCRIPTION PAGE
+  ------------------------------------------------------------------------------------------------------
+*/
+

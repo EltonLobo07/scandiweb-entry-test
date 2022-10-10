@@ -53,7 +53,7 @@ export default class DisplayMaxProductInfo extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.descriptionRef.current.innerHTML === "")
+        if (this.state.product && this.descriptionRef.current.innerHTML === "")
             this.descriptionRef.current.innerHTML = this.state.product.description;
 
         if (this.isProductInCart) {
@@ -67,7 +67,7 @@ export default class DisplayMaxProductInfo extends React.Component {
 
     render() {
         if (this.state.product === undefined)
-            return <div style = {{position: "relative", zIndex: 1}}>Loading...</div>;
+            return <div className = "loadingScreen">Loading...</div>;
 
         if (this.state.product === null)
             return <UnknownPath />;
