@@ -27,7 +27,7 @@ export default class DisplayAttrObjItem extends React.Component {
                              style = {{backgroundColor: `${isCurItemSelected ? "black" : "white"}`,
                                        color: `${isCurItemSelected ? "white" : "black"}`}}>
                             {
-                                itemObj.displayValue
+                                itemObj.value
                             }
                         </div>
                     )

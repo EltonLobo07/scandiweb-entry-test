@@ -8,25 +8,39 @@ export default class Cart extends React.Component {
         const { totalQuantity, totalAmount } = this.getTotalQuantityAndAmount(); 
 
         return (
-            <section style = {{position: "relative", zIndex: "1", backgroundColor: "white"}}>
+            <section className = "mainContainer cartContainer" style = {{position: "relative", zIndex: "1"}}>
                 <h1>
                     Cart
                 </h1>
 
-                <div>
+                <div className = "dash"></div>
+
+                <div style = {{width: "1180px"}}>
                     {
-                        appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} />)
+                        appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} addDash = {true} />)
                     }
                 </div>
 
-                <div>
-                    <div>
-                        Quantity: {totalQuantity}
+                <div className = "cartFinalSection">
+                    <div className = "cartFinalInfo">
+                        <div className = "flexColGap4px">
+                            <div>
+                                Quantity:
+                            </div>
+                            <div>
+                                Total:
+                            </div>
+                        </div>
+                        <div className = "flexColGap4px" style = {{fontWeight: "bold"}}>
+                            <div>
+                                {totalQuantity}
+                            </div>
+                            <div>
+                                {`${appState.curCurrencySymbol}${totalAmount.toFixed(2)}`}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        Total: {`${appState.curCurrencySymbol}${totalAmount.toFixed(2)}`}
-                    </div>
-                    <button style = {{border: "1px solid black"}}>
+                    <button className = "cartOrderBtn">
                         Order
                     </button>
                 </div>

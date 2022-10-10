@@ -57,8 +57,8 @@ export default class ProductsGrid extends React.Component {
                         this.state.products.map(product => {
                             return (
                                 <DisplayMinProductInfo key = {product.id}
-                                                       product = {product} 
-                                                       curCurrencySymbol = {curCurrencySymbol} />
+                                                    product = {product} 
+                                                    curCurrencySymbol = {curCurrencySymbol} />
                             );
                         })
                     }

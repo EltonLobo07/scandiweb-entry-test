@@ -37,48 +37,60 @@ export default class DisplayCartProduct extends React.Component {
         const productAttrState = product.attrState;
 
         return (
-            <div style = {{display: "flex", justifyContent: "space-around"}}>
-                <div>
+        <div>
+            <div className = "cartProductContainer">
+                <div className = "cartProductInfo">
                     <div>
-                        {
-                            product.brand
-                        }
+                        <div className = "productBrandName">
+                            {
+                                product.brand
+                            }
+                        </div>
+                        <div className = "productName">
+                            {
+                                product.name
+                            }
+                        </div>
                     </div>
-                    <div>
-                        {
-                            product.name
-                        }
+                    
+                    <div className = "cartPrice">
+                        {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount.toFixed(2)}`}
                     </div>
-                    <div>
-                        {`${curCurrencySymbol} ${product.prices.find(priceObj => priceObj.currency.symbol === curCurrencySymbol).amount}`}
-                    </div>
-                    <div>
+                    <div className = "cartAttrs">
                         {
                             product.attributes.map((attrObj, attrIdx) => <DisplayAttrObj  key = {attrObj.id} attrObj = {attrObj} attrIdx = {attrIdx} attrState = {productAttrState} setAttrState = {this.setProductAttrState} />)
                         }
                     </div>
                     <button onClick = {() => this.handleRemoveFromCartBtnClick()}
-                            style = {{border: "1px solid black"}}>
+                            className = "cartRemoveBtn">
                         Remove from cart
                     </button>
                 </div>
-                <div style = {{display: "flex", columnGap: "8px"}}>
-                    <div style = {{display: "flex", flexDirection: "column", RowGap: "12px", justifyContent: "space-between"}}>
-                        <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.incQuantity()}>
+                <div className = "cartImageQuantityChangeAndDisplay">
+                    <div className = "cartQuantityChangeAndDisplay">
+                        <button className = "quantityChangeBtn" onClick = {() => this.incQuantity()}>
                             +
                         </button>
-                        <div>
+                        <div className = "cartQuantityDisplay">
                             {productAttrState.at(-1)}
                         </div>
-                        <button style = {{border: "1px solid black", padding: "4px", width: "24px"}} onClick = {() => this.decQuantity()}>
+                        <button className = "quantityChangeBtn" onClick = {() => this.decQuantity()}>
                             -
                         </button>
                     </div>
                     <img src = {product.gallery} 
                          alt = {`${product.name}`}
-                         style = {{width: "100px", height: "150px"}} />
+                         className = "cartImage" />
                 </div>
             </div>
+            {
+                this.props.addDash 
+                ?
+                <div className = "dash"></div>
+                :
+                null
+            }
+        </div>
         );
     }
 

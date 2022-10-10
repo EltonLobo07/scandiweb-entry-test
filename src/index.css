@@ -374,6 +374,7 @@ html, body, #root, .appContainer {
 .mainContainer {
   overflow-y: auto;
   height: calc(100vh - 80px);
+  background-color: white;
 }
 
 /*
@@ -428,7 +429,8 @@ html, body, #root, .appContainer {
 header {
   height: 80px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  column-gap: 410px;
   align-items: center;
   position: fixed;
   top: 0;
@@ -495,13 +497,19 @@ header > svg {
   position: relative;
   z-index: 1;
   background-color: white;
-  padding: 32px 64px;
+  padding-top: 64px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .productListingSection > h1 {
   margin-top: 0;
   margin-bottom: 32px;
   text-transform: capitalize;
+  width: 1180px;
+  text-align: start;
 }
 
 .productsContainer {
@@ -564,6 +572,7 @@ header > svg {
   object-fit: contain;
   position: relative;
   z-index: 1;
+  background-color: white;
 }
 
 .imgContainer > div {
@@ -588,12 +597,13 @@ header > svg {
   ------------------------------------------------------------------------------------------------------
 */
 .productDescriptionContainer {
-  padding: 16px 0;
+  padding-top: 64px;
+  padding-bottom: 16px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: start;
-  column-gap: 64px;
+  column-gap: 144px;
 }
 
 .mainImage {
@@ -612,7 +622,7 @@ header > svg {
 
 .imagesContainer {
   display: flex;
-  column-gap: 24px;
+  column-gap: 48px;
 }
 
 .productBrandAndNameContainer {
@@ -684,7 +694,12 @@ header > svg {
   background-color: white;
   color: black;
   border: 1px solid black;
-  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  font-size: 30px;
 }
 
 .quantityDisplay {
@@ -714,4 +729,133 @@ header > svg {
 
 .pDPProductDescription {
   width: 292px;
+}
+
+/*
+  CART Page
+  ------------------------------------------------------------------------------------------------------
+*/
+.cartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+  padding-top: 64px;
+  padding-bottom: 16px;
+}
+
+.cartContainer > h1 {
+  margin: 0;
+  width: 1180px;
+  text-align: start;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  font-size: 32px;
+}
+
+.dash {
+  border: none;
+  width: 1180px;
+  border: 1px solid lightgray;
+  margin: 16px 0;
+}
+
+.cartProductContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  row-gap: 8px;
+}
+
+.productBrandName, .productName {
+  font-size: 30px;
+}
+
+.productBrandName {
+  font-weight: bold;
+}
+
+.cartProductInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.cartPrice {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.cartRemoveBtn {
+  border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: red;
+  color: white;
+  padding: 8px;
+  width: max-content;
+  font-size: 18px;
+}
+
+.cartImage {
+  width: 200px;
+  height: 288px;
+  object-fit: contain;
+}
+
+.cartImageQuantityChangeAndDisplay {
+  display: flex;
+  column-gap: 8px;
+}
+
+.cartQuantityChangeAndDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cartQuantityDisplay {
+  font-size: 24px;
+}
+
+.cartAttrs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.cartFinalInfo {
+  font-size: 24px;
+  display: flex;
+  column-gap: 4px;
+}
+
+.flexColGap4px {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.cartOrderBtn {
+  border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #5ECE7B;
+  color: white;
+  padding: 8px;
+  width: 279px;
+  text-transform: uppercase;
+}
+
+.cartFinalSection {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: 1180px;
+  align-items: start;
 }
