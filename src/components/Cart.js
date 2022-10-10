@@ -17,7 +17,7 @@ export default class Cart extends React.Component {
 
                 <div style = {{width: "1180px"}}>
                     {
-                        appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} addDash = {true} />)
+                        appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {`${prodObj.id},${prodObj.attrState.slice(0,-1).join(",")}`} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} addDash = {true} />)
                     }
                 </div>
 

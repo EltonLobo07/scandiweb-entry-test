@@ -12,21 +12,46 @@ export default class DisplayCartProduct extends React.Component {
         setAppState({cart: appState.cart.filter((prodObj, poi) => poi !== prodObjIdx)});
     }
 
-    setProductAttrState({ attrState }) {
+    setProductAttrState({ attrState, oldAttrState }) {
         const { appState, setAppState, prodObjIdx } = this.props;
-        const newCart = appState.cart.map((prodObj, poi) => {
-            if (poi === prodObjIdx)
-                return {...prodObj, attrState};
-            
-            return prodObj;
-        });
-        setAppState({cart: newCart});
-    } 
+        const { cart } = appState;
+        const productId = cart[prodObjIdx].id;
+        const lastIdx = attrState.length - 1;
+        const curProductState = `${productId},${attrState.slice(0, -1).join(",")}`;
 
-    componentDidUpdate() {
-        const { appState, prodObjIdx } = this.props;
-        const product = appState.cart[prodObjIdx];
-        window.localStorage.setItem(product.id, JSON.stringify(product.attrState));
+        const idxOfSimilarEntry = cart.findIndex(prodObj => {
+            const cartProductStr = `${prodObj.id},${prodObj.attrState.slice(0, prodObj.attrState.length - 1).join(",")}`;
+            return cartProductStr === curProductState;
+        });
+
+        const oldAttrStateStr = oldAttrState.join(",");
+
+        if (idxOfSimilarEntry === -1) {
+            const newCart = cart.map(prodObj => {
+                if (!(prodObj.id === productId && prodObj.attrState.join(",") === oldAttrStateStr)) 
+                    return prodObj;
+
+                return {...prodObj, attrState: attrState};
+            });
+
+            setAppState({cart: newCart});
+        }
+        else {
+            let newCart = cart.map((prodObj, prodObjIdx) => {
+                if (prodObjIdx !== idxOfSimilarEntry)
+                    return prodObj;
+                    
+                const newAttrState = [...prodObj.attrState];
+                newAttrState[lastIdx] += attrState.at(-1);
+                return {...prodObj, attrState: newAttrState};
+            });
+
+            newCart = newCart.filter(prodObj => {
+                return !(prodObj.id === productId && prodObj.attrState.join(",") === oldAttrStateStr);    
+            });
+
+            setAppState({cart: newCart});
+        }
     }
 
     render() {

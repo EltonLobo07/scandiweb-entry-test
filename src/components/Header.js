@@ -50,7 +50,7 @@ export default class Header extends React.Component {
 
                         <div style = {{display: "flex", flexDirection: "column", rowGap: "32px"}}>
                             {
-                                appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {prodObj.id} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} smallVersion = {true} />)
+                                appState.cart.map((prodObj, prodObjIdx) => <DisplayCartProduct key = {`${prodObj.id},${prodObj.attrState.slice(0,-1).join(",")}`} appState = {appState} prodObjIdx = {prodObjIdx} setAppState = {setAppState} smallVersion = {true} />)
                             }
                         </div>
 

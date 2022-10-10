@@ -45,6 +45,6 @@ export default class DisplayAttrObjItem extends React.Component {
         const { itemIdx, attrIdx, attrState, setAttrState } = this.props;
         const attrStateCpy = [...attrState];
         attrStateCpy[attrIdx] = itemIdx;
-        setAttrState({attrState: attrStateCpy});
+        setAttrState({attrState: attrStateCpy, oldAttrState: attrState});
     }
 }

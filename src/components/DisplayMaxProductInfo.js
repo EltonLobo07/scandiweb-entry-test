@@ -23,14 +23,6 @@ export default class DisplayMaxProductInfo extends React.Component {
         
         service.getSingleProduct(productId)
                .then(res => {
-
-                    const inCartProd = this.context.appState.cart.find(prodObj => prodObj.id === productId);
-                    
-                    if (inCartProd !== undefined) {
-                        this.setState({product: res, attrState: inCartProd.attrState});
-                        return;
-                    }
-
                     const attrStateInLS = window.localStorage.getItem(productId);
 
                     if (attrStateInLS) {
@@ -56,12 +48,6 @@ export default class DisplayMaxProductInfo extends React.Component {
         if (this.state.product && this.descriptionRef.current.innerHTML === "")
             this.descriptionRef.current.innerHTML = this.state.product.description;
 
-        if (this.isProductInCart) {
-            const cartAttrState = this.prodObj.attrState;
-            if (cartAttrState.join(",") !== this.state.attrState.join(","))
-                this.setState({attrState: [...cartAttrState]});
-        }
-
         window.localStorage.setItem(this.productId, JSON.stringify(this.state.attrState));
     }
 
@@ -77,10 +63,7 @@ export default class DisplayMaxProductInfo extends React.Component {
         this.productId = product.id;
         this.appState = this.context.appState;
         this.setAppState = this.context.setAppState;
-        const prodObj = cart.find(prodObj => prodObj.id === this.productId);
-        this.prodObj = prodObj;
-        this.isProductInCart = prodObj !== undefined;
-        const curAttrState = this.isProductInCart ? prodObj.attrState : this.state.attrState;
+        const curAttrState = this.state.attrState;
 
         return (
             <div className = "mainContainer productDescriptionContainer" style = {{position: "relative", zIndex: "1"}}>
@@ -149,79 +132,57 @@ export default class DisplayMaxProductInfo extends React.Component {
     }
 
     setAttrState({ attrState }) {
-        if (this.isProductInCart) {
-            const { appState, setAppState } = this.context;
-            const { cart } = appState;
-
-            const newCart = cart.map(prodObj => prodObj.id === this.productId ? {...prodObj, attrState} : prodObj);
-            setAppState({cart: newCart});
-            return;
-        }
-        
         this.setState({attrState});
     }
 
     generateBtnLabel(inStock) {
         if (inStock)
-            return this.isProductInCart ? "REMOVE FROM CART" : "ADD TO CART";
+            return "ADD TO CART";
 
         return "OUT OF STOCK";
     }
 
     handleBtnClick() {
-        if (this.isProductInCart) {
-            const { appState, setAppState } = this.context;
-            const prodObj = appState.cart.find(prodObj => prodObj.id === this.productId);
-            this.setState({attrState: [...prodObj.attrState]});
-            setAppState({cart: appState.cart.filter(prodObj => prodObj.id !== this.productId)});
-        }
-        else {
-            const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: this.state.attrState};
+        const { appState, setAppState } = this.context;
+        const { cart } = appState;
+        const curAttrState = this.state.attrState;
+        const lastIdx = curAttrState.length - 1;
+
+        const curProductState = `${this.productId},${curAttrState.slice(0, lastIdx).join(",")}`;
+
+        const idxOfSimilarEntry = cart.findIndex(prodObj => {
+            const cartProductStr = `${prodObj.id},${prodObj.attrState.slice(0, prodObj.attrState.length - 1).join(",")}`;
+            return cartProductStr === curProductState;
+        });
+
+        if (idxOfSimilarEntry === -1) {
+            const newCartProduct = {...this.state.product, gallery: this.state.product.gallery[0], attrState: curAttrState};
             delete newCartProduct["description"];
             this.setAppState({cart: [...this.appState.cart, newCartProduct]});
+        }
+        else {
+            setAppState({cart: cart.map((prodObj, prodObjIdx) => {
+                if (prodObjIdx !== idxOfSimilarEntry)
+                    return prodObj;
+                    
+                const newAttrState = [...prodObj.attrState];
+                newAttrState[lastIdx] += curAttrState.at(-1);
+                return {...prodObj, attrState: newAttrState};
+            })});
         }
     }
 
     incQuantity() {
-        if (this.isProductInCart) {
-            const { appState, setAppState } = this.context;
-            const newCart = appState.cart.map(prodObj => {
-                if (prodObj.id === this.productId) {
-                    const newProdAttrState = [...prodObj.attrState];
-                    newProdAttrState[newProdAttrState.length - 1]++;
-                    return {...prodObj, attrState: newProdAttrState};
-                }
-                return prodObj;
-            });
-            setAppState({cart: newCart});
-        }
-        else {
-            const newAttrState = [...this.state.attrState];
-            newAttrState[newAttrState.length - 1]++;
-            this.setState({attrState: newAttrState});
-        }
+        const newAttrState = [...this.state.attrState];
+        newAttrState[newAttrState.length - 1]++;
+        this.setState({attrState: newAttrState});
     }
 
     decQuantity() {
-        if (this.isProductInCart) {
-            const { appState, setAppState } = this.context;
-            const newCart = appState.cart.map(prodObj => {
-                if (prodObj.id === this.productId) {
-                    const newProdAttrState = [...prodObj.attrState];
-                    const lastIdx = newProdAttrState.length - 1;
-                    newProdAttrState[lastIdx] = Math.max(1, newProdAttrState[lastIdx] - 1);
-                    return {...prodObj, attrState: newProdAttrState};
-                }
-                return prodObj;
-            });
-            setAppState({cart: newCart});
-        }
-        else {
-            const newAttrState = [...this.state.attrState];
-            const lastIdx = newAttrState.length - 1;
-            newAttrState[lastIdx] = Math.max(1, newAttrState[lastIdx] - 1);
-            this.setState({attrState: newAttrState});
-        }
+        const newAttrState = [...this.state.attrState];
+        const lastIdx = newAttrState.length - 1;
+        newAttrState[lastIdx] = Math.max(1, newAttrState[lastIdx] - 1);
+        this.setState({attrState: newAttrState});
     }
 }
 
